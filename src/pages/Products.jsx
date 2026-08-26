@@ -1,14 +1,12 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Search } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 import { products, categories } from '../data/products';
 import ProductCard from '../components/ProductCard';
 
 export default function Products() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [search, setSearch] = useState('');
-  const { t } = useTranslation();
 
   const filtered = products.filter(p => {
     const matchCategory = selectedCategory === 'All' || p.category === selectedCategory;
@@ -24,11 +22,11 @@ export default function Products() {
         transition={{ duration: 0.7 }}
         className="mb-12"
       >
-        <span className="text-rose-400 text-sm font-semibold tracking-widest uppercase">{t('products.browse')}</span>
+        <span className="text-rose-400 text-sm font-semibold tracking-widest uppercase">Explore</span>
         <h1 className="font-display text-4xl md:text-5xl font-bold text-gray-900 mt-2 mb-3">
-          {t('products.title')}
+          The Collection
         </h1>
-        <p className="text-gray-400">{t('products.desc')}</p>
+        <p className="text-gray-400">Discover pieces you'll treasure</p>
       </motion.div>
 
       <motion.div
@@ -41,7 +39,7 @@ export default function Products() {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input
             type="text"
-            placeholder={t('products.searchPlaceholder')}
+            placeholder="Search our collection..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-11 pr-4 py-3 bg-white border border-rose-100 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent shadow-sm"
@@ -74,8 +72,8 @@ export default function Products() {
 
       {filtered.length === 0 && (
         <div className="text-center py-24">
-          <p className="text-5xl mb-4">{t('products.emptyEmoji')}</p>
-          <p className="text-lg font-display text-gray-400">{t('products.noResults')}</p>
+          <p className="text-5xl mb-4">&#128269;</p>
+          <p className="text-lg font-display text-gray-400">No pieces match your search.</p>
         </div>
       )}
     </div>

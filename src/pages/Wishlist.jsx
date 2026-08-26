@@ -1,27 +1,25 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Heart, Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+import { Trash2, ShoppingBag, ArrowRight } from 'lucide-react';
 import { useWishlist } from '../context/WishlistContext';
 import { useCart } from '../context/CartContext';
 
 export default function Wishlist() {
   const { items, removeFromWishlist, clearWishlist } = useWishlist();
   const { addToCart } = useCart();
-  const { t } = useTranslation();
 
   if (items.length === 0) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-          <div className="text-7xl mb-6">💝</div>
-          <h1 className="font-display text-3xl font-bold text-gray-900 mb-3">{t('wishlist.emptyTitle')}</h1>
-          <p className="text-gray-400 mb-10">{t('wishlist.emptyDesc')}</p>
+          <div className="text-7xl mb-6">&#128155;</div>
+          <h1 className="font-display text-3xl font-bold text-gray-900 mb-3">Your Wishlist is Empty</h1>
+          <p className="text-gray-400 mb-10">Save pieces you love for later</p>
           <Link to="/products">
             <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
               className="bg-gradient-to-r from-rose-500 to-blush-500 text-white font-semibold px-8 py-4 rounded-full shadow-glow inline-flex items-center gap-2"
             >
-              {t('wishlist.exploreCollection')} <ArrowRight className="w-5 h-5" />
+              Explore Collection <ArrowRight className="w-5 h-5" />
             </motion.button>
           </Link>
         </motion.div>
@@ -33,13 +31,13 @@ export default function Wishlist() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-28">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex items-center justify-between mb-10">
         <div>
-          <h1 className="font-display text-3xl md:text-4xl font-bold text-gray-900">{t('wishlist.title')}</h1>
-          <p className="text-gray-400 text-sm mt-1">{items.length} {items.length === 1 ? t('cart.item') : t('cart.items')} {t('wishlist.saved')}</p>
+          <h1 className="font-display text-3xl md:text-4xl font-bold text-gray-900">My Wishlist</h1>
+          <p className="text-gray-400 text-sm mt-1">{items.length} {items.length === 1 ? 'piece' : 'pieces'} saved for later</p>
         </div>
         <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={clearWishlist}
           className="text-sm text-rose-400 hover:text-rose-600 font-medium bg-rose-50 px-4 py-2 rounded-full"
         >
-          {t('wishlist.clearAll')}
+          Clear All
         </motion.button>
       </motion.div>
 
@@ -72,7 +70,7 @@ export default function Wishlist() {
                   onClick={() => { addToCart(item); removeFromWishlist(item.id); }}
                   className="w-full bg-gradient-to-r from-rose-500 to-blush-500 hover:from-rose-600 hover:to-blush-600 text-white text-sm font-semibold py-3 rounded-full transition-all shadow-glow flex items-center justify-center gap-2"
                 >
-                  <ShoppingBag className="w-4 h-4" /> {t('wishlist.moveToCart')}
+                  <ShoppingBag className="w-4 h-4" /> Move to Bag
                 </motion.button>
               </div>
             </motion.div>

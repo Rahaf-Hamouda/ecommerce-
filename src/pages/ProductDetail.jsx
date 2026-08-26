@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Star, ShoppingCart, Check, Heart } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
 import { products } from '../data/products';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
@@ -14,15 +13,14 @@ export default function ProductDetail() {
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
   const [added, setAdded] = useState(false);
-  const { t } = useTranslation();
 
   if (!product) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-32 text-center">
-        <p className="text-6xl mb-4">{t('product.notFoundEmoji')}</p>
-        <h1 className="font-display text-2xl font-bold text-gray-900 mb-4">{t('product.notFound')}</h1>
+        <p className="text-6xl mb-4">&#127800;</p>
+        <h1 className="font-display text-2xl font-bold text-gray-900 mb-4">Piece Not Found</h1>
         <Link to="/products" className="text-rose-500 hover:text-rose-600 transition-colors">
-          ← {t('product.backToCollection')}
+          &larr; Back to Collection
         </Link>
       </div>
     );
@@ -42,7 +40,7 @@ export default function ProductDetail() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-28">
       <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
         <Link to="/products" className="inline-flex items-center gap-1 text-sm text-gray-400 hover:text-rose-500 mb-10 transition-colors group">
-          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> {t('product.backToCollection')}
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Back to Collection
         </Link>
       </motion.div>
 
@@ -75,7 +73,7 @@ export default function ProductDetail() {
           <p className="text-gray-500 leading-relaxed mb-8">{product.description}</p>
 
           <div className="mb-10">
-            <h3 className="font-display font-semibold text-gray-800 mb-4">{t('product.keyFeatures')}</h3>
+            <h3 className="font-display font-semibold text-gray-800 mb-4">Details & Features</h3>
             <ul className="grid grid-cols-2 gap-3">
               {product.features.map((f, i) => (
                 <motion.li key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 + i * 0.1 }}
@@ -94,7 +92,7 @@ export default function ProductDetail() {
             <div className="flex items-end gap-3 mb-8">
               <span className="text-4xl font-bold text-gray-900">${product.price.toFixed(2)}</span>
               {product.inStock && (
-                <span className="text-sm text-sage-600 font-medium bg-sage-50 px-3 py-1 rounded-full mb-1">✓ {t('product.inStock')}</span>
+                <span className="text-sm text-sage-600 font-medium bg-sage-50 px-3 py-1 rounded-full mb-1">&check; In Stock</span>
               )}
             </div>
 
@@ -109,11 +107,11 @@ export default function ProductDetail() {
                 <AnimatePresence mode="wait">
                   {added ? (
                     <motion.span key="added" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} className="flex items-center gap-2">
-                      <Check className="w-5 h-5" /> {t('product.added')}
+                      <Check className="w-5 h-5" /> Added to Bag
                     </motion.span>
                   ) : (
                     <motion.span key="add" initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} className="flex items-center gap-2">
-                      <ShoppingCart className="w-5 h-5" /> {t('product.addToCart')}
+                      <ShoppingCart className="w-5 h-5" /> Add to Bag
                     </motion.span>
                   )}
                 </AnimatePresence>
@@ -126,7 +124,7 @@ export default function ProductDetail() {
       {relatedProducts.length > 0 && (
         <div className="mt-24">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
-            <h2 className="font-display text-3xl font-bold text-gray-900 mb-10">{t('product.relatedTitle')}</h2>
+            <h2 className="font-display text-3xl font-bold text-gray-900 mb-10">You May Also Love</h2>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
             {relatedProducts.map((p, index) => (

@@ -2,19 +2,15 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingCart, Menu, X, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useTranslation } from 'react-i18next';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
-import LanguageSwitcher from './LanguageSwitcher';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { cartCount } = useCart();
   const { wishlistCount } = useWishlist();
-  const { t, i18n } = useTranslation();
   const location = useLocation();
-  const isRtl = i18n.language === 'ar';
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -23,8 +19,8 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: t('nav.home'), path: '/' },
-    { name: t('nav.collection'), path: '/products' },
+    { name: 'Home', path: '/' },
+    { name: 'Collection', path: '/products' },
   ];
 
   return (
@@ -42,15 +38,7 @@ export default function Navbar() {
         <div className="flex justify-between items-center">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <motion.span
-              whileHover={{ rotate: 15, scale: 1.1 }}
-              className="text-2xl"
-            >
-              🌹
-            </motion.span>
-            <span className={`font-display font-bold text-gradient tracking-tight ${
-              isRtl ? 'text-xl' : 'text-2xl'
-            }`}>
+            <span className="font-display font-bold text-gradient text-2xl tracking-tight">
               Elegance
             </span>
           </Link>
@@ -82,8 +70,6 @@ export default function Navbar() {
 
           {/* Right icons */}
           <div className="flex items-center gap-1">
-            <LanguageSwitcher />
-
             {/* Wishlist */}
             <Link to="/wishlist" className="relative">
               <motion.div
@@ -178,7 +164,7 @@ export default function Navbar() {
                 onClick={() => setMobileMenuOpen(false)}
                 className="flex items-center gap-2 py-2.5 text-sm font-medium text-gray-600"
               >
-                <Heart className="w-4 h-4" /> {t('nav.wishlist')} {wishlistCount > 0 && `(${wishlistCount})`}
+                <Heart className="w-4 h-4" /> Wishlist {wishlistCount > 0 && `(${wishlistCount})`}
               </Link>
             </div>
           </motion.div>

@@ -1,8 +1,8 @@
-# 🌹 Elegance — Modern Essentials
+# Elegance — Modern Essentials
 
-A beautifully crafted e-commerce web application with a refined, feminine aesthetic.
+A beautifully crafted e-commerce web application with a refined, modern aesthetic.
 
-## ✨ Features
+## Features
 
 - **Home Page** — Elegant hero with gradient mesh, product collage, and scroll animations
 - **Product Collection** — Searchable & filterable grid with scroll-reveal cards
@@ -11,7 +11,7 @@ A beautifully crafted e-commerce web application with a refined, feminine aesthe
 - **Checkout** — Clean form with order confirmation celebration
 - **Animations** — Smooth page transitions, hover effects, and scroll-triggered reveals
 
-## 🎨 Design
+## Design
 
 - Rose / blush / cream color palette
 - Playfair Display + DM Sans typography
@@ -19,7 +19,7 @@ A beautifully crafted e-commerce web application with a refined, feminine aesthe
 - Gradient accents and glow shadows
 - Fully responsive, mobile-first
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - React 18 + Vite
 - React Router v6
@@ -27,7 +27,7 @@ A beautifully crafted e-commerce web application with a refined, feminine aesthe
 - Framer Motion
 - Lucide React icons
 
-## 🚀 Getting Started
+## Getting Started
 
 ```bash
 npm install
@@ -36,7 +36,7 @@ npm run dev
 
 Open [http://localhost:5173](http://localhost:5173)
 
-## 📦 Build & Deploy
+## Build & Deploy
 
 ```bash
 npm run build
