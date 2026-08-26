@@ -8,7 +8,8 @@ import ProductCard from '../components/ProductCard';
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRtl = i18n.language === 'ar';
 
   const filteredProducts =
     selectedCategory === 'All'
@@ -53,7 +54,9 @@ export default function Home() {
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="font-display text-5xl md:text-7xl font-bold text-gray-900 leading-[1.1] mb-6"
+                className={`font-display font-bold text-gray-900 leading-[1.05] mb-6 ${
+                  isRtl ? 'text-5xl md:text-6xl' : 'text-5xl md:text-7xl tracking-elegant'
+                }`}
               >
                 {t('hero.title1')}
                 <span className="block text-gradient italic">{t('hero.title2')}</span>
@@ -64,7 +67,9 @@ export default function Home() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
-                className="text-gray-500 text-lg leading-relaxed mb-10 max-w-md"
+                className={`text-gray-500 leading-relaxed mb-10 max-w-md ${
+                  isRtl ? 'text-lg' : 'text-lg leading-[1.8]'
+                }`}
               >
                 {t('hero.subtitle')}
               </motion.p>
@@ -98,7 +103,7 @@ export default function Home() {
 
             {/* Hero Image Collage */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, x: 60 }}
+              initial={{ opacity: 0, scale: 0.9, x: isRtl ? -60 : 60 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               transition={{ duration: 1, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
               className="relative hidden lg:block"
@@ -180,11 +185,13 @@ export default function Home() {
           transition={{ duration: 0.7 }}
           className="text-center mb-14"
         >
-          <span className="text-rose-400 text-sm font-semibold tracking-widest uppercase">{t('home.ourPicks')}</span>
-          <h2 className="font-display text-4xl md:text-5xl font-bold text-gray-900 mt-3 mb-4">
+          <span className="text-rose-400 text-xs font-semibold tracking-wide-elegant uppercase">{t('home.ourPicks')}</span>
+          <h2 className={`font-display font-bold text-gray-900 mt-3 mb-4 ${
+            isRtl ? 'text-3xl md:text-4xl' : 'text-4xl md:text-5xl tracking-elegant'
+          }`}>
             {t('home.featuredCollection')}
           </h2>
-          <p className="text-gray-400 max-w-lg mx-auto">
+          <p className={`text-gray-400 max-w-lg mx-auto ${isRtl ? 'text-base' : 'text-base leading-relaxed'}`}>
             {t('home.featuredDesc')}
           </p>
         </motion.div>
@@ -240,7 +247,9 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
           >
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-4">
+            <h2 className={`font-display font-bold text-white mb-4 ${
+              isRtl ? 'text-3xl md:text-4xl' : 'text-4xl md:text-5xl tracking-elegant'
+            }`}>
               {t('home.elevateTitle')}
             </h2>
             <p className="text-rose-100 mb-10 max-w-md mx-auto">
