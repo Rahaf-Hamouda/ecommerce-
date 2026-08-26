@@ -3,11 +3,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { ShoppingCart, Menu, X, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../context/CartContext';
+import { useWishlist } from '../context/WishlistContext';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { cartCount } = useCart();
+  const { wishlistCount } = useWishlist();
   const location = useLocation();
 
   useEffect(() => {
@@ -73,20 +75,44 @@ export default function Navbar() {
           </div>
 
           {/* Right icons */}
-          <div className="flex items-center gap-3">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="p-2.5 rounded-full hover:bg-rose-50 transition-colors text-gray-500 hover:text-rose-500"
-            >
-              <Heart className="w-5 h-5" />
-            </motion.button>
+          <div className="flex items-center gap-2">
+            {/* Wishlist */}
+            <Link to="/wishlist" className="relative">
+              <motion.div
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className={`p-2.5 rounded-full transition-colors ${
+                  location.pathname === '/wishlist'
+                    ? 'bg-rose-50 text-rose-500'
+                    : 'hover:bg-rose-50 text-gray-500 hover:text-rose-500'
+                }`}
+              >
+                <Heart className="w-5 h-5" />
+              </motion.div>
+              <AnimatePresence>
+                {wishlistCount > 0 && (
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0 }}
+                    className="absolute -top-0.5 -right-0.5 bg-gradient-to-r from-blush-500 to-rose-500 text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-glow-blush"
+                  >
+                    {wishlistCount}
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </Link>
 
+            {/* Cart */}
             <Link to="/cart" className="relative">
               <motion.div
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-                className="p-2.5 rounded-full hover:bg-rose-50 transition-colors text-gray-500 hover:text-rose-500"
+                className={`p-2.5 rounded-full transition-colors ${
+                  location.pathname === '/cart'
+                    ? 'bg-rose-50 text-rose-500'
+                    : 'hover:bg-rose-50 text-gray-500 hover:text-rose-500'
+                }`}
               >
                 <ShoppingCart className="w-5 h-5" />
               </motion.div>
@@ -139,6 +165,13 @@ export default function Navbar() {
                   {link.name}
                 </Link>
               ))}
+              <Link
+                to="/wishlist"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-2 py-2.5 text-sm font-medium text-gray-600"
+              >
+                <Heart className="w-4 h-4" /> Wishlist {wishlistCount > 0 && `(${wishlistCount})`}
+              </Link>
             </div>
           </motion.div>
         )}

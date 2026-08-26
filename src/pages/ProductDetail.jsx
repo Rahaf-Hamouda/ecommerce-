@@ -4,14 +4,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Star, ShoppingCart, Check, Heart } from 'lucide-react';
 import { products } from '../data/products';
 import { useCart } from '../context/CartContext';
+import { useWishlist } from '../context/WishlistContext';
 import ProductCard from '../components/ProductCard';
 
 export default function ProductDetail() {
   const { id } = useParams();
   const product = products.find(p => p.id === parseInt(id));
   const { addToCart } = useCart();
+  const { toggleWishlist, isInWishlist } = useWishlist();
   const [added, setAdded] = useState(false);
-  const [liked, setLiked] = useState(false);
 
   if (!product) {
     return (
@@ -66,10 +67,10 @@ export default function ProductDetail() {
           <motion.button
             whileHover={{ scale: 1.15 }}
             whileTap={{ scale: 0.9 }}
-            onClick={() => setLiked(!liked)}
+            onClick={() => toggleWishlist(product)}
             className="absolute top-6 right-6 p-3 glass rounded-full shadow-lg"
           >
-            <Heart className={`w-5 h-5 transition-colors ${liked ? 'text-rose-500 fill-rose-500' : 'text-gray-400'}`} />
+            <Heart className={`w-5 h-5 transition-all duration-300 ${isInWishlist(product.id) ? 'text-rose-500 fill-rose-500 scale-110' : 'text-gray-400'}`} />
           </motion.button>
         </motion.div>
 

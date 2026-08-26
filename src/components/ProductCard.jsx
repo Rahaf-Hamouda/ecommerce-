@@ -1,10 +1,13 @@
 import { motion } from 'framer-motion';
-import { Star } from 'lucide-react';
+import { Star, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useWishlist } from '../context/WishlistContext';
 
 export default function ProductCard({ product, index = 0 }) {
   const { addToCart } = useCart();
+  const { toggleWishlist, isInWishlist } = useWishlist();
+  const liked = isInWishlist(product.id);
 
   return (
     <motion.div
@@ -29,6 +32,23 @@ export default function ProductCard({ product, index = 0 }) {
             <span className="absolute top-4 left-4 glass text-rose-600 text-[11px] font-semibold px-3 py-1.5 rounded-full backdrop-blur-md">
               {product.category}
             </span>
+
+            {/* Heart button */}
+            <motion.button
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.8 }}
+              onClick={(e) => {
+                e.preventDefault();
+                toggleWishlist(product);
+              }}
+              className="absolute top-4 right-4 p-2.5 glass rounded-full shadow-md z-10"
+            >
+              <Heart
+                className={`w-4 h-4 transition-all duration-300 ${
+                  liked ? 'text-rose-500 fill-rose-500 scale-110' : 'text-gray-400'
+                }`}
+              />
+            </motion.button>
 
             {/* Quick add button on hover */}
             <motion.button

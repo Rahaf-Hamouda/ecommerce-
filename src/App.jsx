@@ -7,12 +7,15 @@ import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
+import Wishlist from './pages/Wishlist';
 import { CartProvider } from './context/CartContext';
+import { WishlistProvider } from './context/WishlistContext';
 
 function App() {
   const location = useLocation();
 
   return (
+    <WishlistProvider>
     <CartProvider>
       <div className="min-h-screen flex flex-col bg-cream-50">
         <Navbar />
@@ -24,12 +27,14 @@ function App() {
               <Route path="/product/:id" element={<ProductDetail />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
+              <Route path="/wishlist" element={<Wishlist />} />
             </Routes>
           </AnimatePresence>
         </main>
         <Footer />
       </div>
     </CartProvider>
+    </WishlistProvider>
   );
 }
 
