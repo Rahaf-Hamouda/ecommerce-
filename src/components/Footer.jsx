@@ -1,39 +1,64 @@
-import { Store } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { Heart } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-gray-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div>
-            <div className="flex items-center gap-2 text-white font-bold text-xl mb-4">
-              <Store className="w-6 h-6" />
-              FreeBuff
+    <footer className="relative overflow-hidden">
+      {/* Gradient top border */}
+      <div className="h-px bg-gradient-to-r from-transparent via-rose-300 to-transparent" />
+
+      <div className="bg-gradient-to-b from-rose-50/50 to-cream-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <span className="text-2xl">🌹</span>
+                <span className="font-display text-2xl font-bold text-gradient">Elegance</span>
+              </div>
+              <p className="text-sm text-gray-500 leading-relaxed max-w-xs">
+                Curated with care — modern essentials for the refined lifestyle.
+              </p>
             </div>
-            <p className="text-sm text-gray-400">
-              Modern e-commerce experience. Quality products, delivered with care.
+
+            <div>
+              <h3 className="font-display font-semibold text-gray-800 mb-4">Quick Links</h3>
+              <ul className="space-y-2.5 text-sm">
+                <li><Link to="/" className="text-gray-500 hover:text-rose-500 transition-colors">Home</Link></li>
+                <li><Link to="/products" className="text-gray-500 hover:text-rose-500 transition-colors">Collection</Link></li>
+                <li><Link to="/cart" className="text-gray-500 hover:text-rose-500 transition-colors">Cart</Link></li>
+                <li><Link to="/checkout" className="text-gray-500 hover:text-rose-500 transition-colors">Checkout</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <h3 className="font-display font-semibold text-gray-800 mb-4">Stay in Touch</h3>
+              <p className="text-sm text-gray-500 mb-4">Subscribe for exclusive offers and new arrivals.</p>
+              <div className="flex gap-2">
+                <input
+                  type="email"
+                  placeholder="Your email"
+                  className="flex-1 bg-white border border-rose-100 rounded-full px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-300 focus:border-transparent"
+                />
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-gradient-to-r from-rose-500 to-blush-500 text-white text-sm font-medium px-5 py-2.5 rounded-full"
+                >
+                  Join
+                </motion.button>
+              </div>
+            </div>
+          </div>
+
+          <div className="border-t border-rose-100 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="text-xs text-gray-400">
+              © {new Date().getFullYear()} Elegance. All rights reserved.
+            </p>
+            <p className="text-xs text-gray-400 flex items-center gap-1">
+              Made with <Heart className="w-3 h-3 text-rose-400 fill-rose-400" /> for you
             </p>
           </div>
-          <div>
-            <h3 className="text-white font-semibold mb-4">Quick Links</h3>
-            <ul className="space-y-2 text-sm">
-              <li><a href="/" className="hover:text-white transition-colors">Home</a></li>
-              <li><a href="/products" className="hover:text-white transition-colors">Products</a></li>
-              <li><a href="/cart" className="hover:text-white transition-colors">Cart</a></li>
-              <li><a href="/checkout" className="hover:text-white transition-colors">Checkout</a></li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-white font-semibold mb-4">Contact</h3>
-            <ul className="space-y-2 text-sm">
-              <li>support@freebuff.com</li>
-              <li>+1 (555) 123-4567</li>
-              <li>123 Commerce St, Web City</li>
-            </ul>
-          </div>
-        </div>
-        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-500">
-          © {new Date().getFullYear()} FreeBuff. All rights reserved.
         </div>
       </div>
     </footer>

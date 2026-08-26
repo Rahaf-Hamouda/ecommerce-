@@ -1,62 +1,86 @@
+import { motion } from 'framer-motion';
 import { Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, index = 0 }) {
   const { addToCart } = useCart();
 
   return (
-    <div className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
-      <Link to={`/product/${product.id}`} className="block">
-        <div className="relative overflow-hidden aspect-square bg-gray-50">
-          <img
-            src={product.image}
-            alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            loading="lazy"
-          />
-          <span className="absolute top-3 left-3 bg-primary-100 text-primary-700 text-xs font-medium px-2.5 py-1 rounded-full">
-            {product.category}
-          </span>
-        </div>
-      </Link>
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-50px' }}
+      transition={{ duration: 0.6, delay: index * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+    >
+      <div className="group bg-white rounded-3xl overflow-hidden shadow-soft hover:shadow-elevated transition-all duration-500 border border-rose-50">
+        <Link to={`/product/${product.id}`} className="block">
+          <div className="relative overflow-hidden aspect-[4/5] bg-gradient-to-br from-rose-50 to-blush-50">
+            <img
+              src={product.image}
+              alt={product.name}
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
+              loading="lazy"
+            />
+            {/* Overlay on hover */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-      <div className="p-5">
-        <Link to={`/product/${product.id}`}>
-          <h3 className="font-semibold text-gray-800 mb-1 line-clamp-1 group-hover:text-primary-600 transition-colors">
-            {product.name}
-          </h3>
+            {/* Category pill */}
+            <span className="absolute top-4 left-4 glass text-rose-600 text-[11px] font-semibold px-3 py-1.5 rounded-full backdrop-blur-md">
+              {product.category}
+            </span>
+
+            {/* Quick add button on hover */}
+            <motion.button
+              initial={{ opacity: 0, y: 20 }}
+              whileHover={{ scale: 1.05 }}
+              className="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-md text-rose-600 text-sm font-semibold py-3 rounded-2xl opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 shadow-lg"
+              onClick={(e) => {
+                e.preventDefault();
+                addToCart(product);
+              }}
+            >
+              Quick Add ✨
+            </motion.button>
+          </div>
         </Link>
 
-        <div className="flex items-center gap-1 mb-3">
-          {[...Array(5)].map((_, i) => (
-            <Star
-              key={i}
-              className={`w-3.5 h-3.5 ${
-                i < Math.floor(product.rating)
-                  ? 'fill-amber-400 text-amber-400'
-                  : 'text-gray-300'
-              }`}
-            />
-          ))}
-          <span className="text-xs text-gray-500 ml-1">({product.reviews})</span>
-        </div>
+        <div className="p-5">
+          <Link to={`/product/${product.id}`}>
+            <h3 className="font-display font-semibold text-gray-800 mb-1.5 line-clamp-1 group-hover:text-rose-600 transition-colors text-[15px]">
+              {product.name}
+            </h3>
+          </Link>
 
-        <div className="flex items-center justify-between">
-          <span className="text-xl font-bold text-gray-900">
-            ${product.price.toFixed(2)}
-          </span>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              addToCart(product);
-            }}
-            className="bg-primary-600 hover:bg-primary-700 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-colors active:scale-95"
-          >
-            Add to Cart
-          </button>
+          <div className="flex items-center gap-1 mb-3">
+            {[...Array(5)].map((_, i) => (
+              <Star
+                key={i}
+                className={`w-3 h-3 ${
+                  i < Math.floor(product.rating)
+                    ? 'fill-cream-400 text-cream-400'
+                    : 'text-gray-200'
+                }`}
+              />
+            ))}
+            <span className="text-[11px] text-gray-400 ml-1">({product.reviews})</span>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <span className="text-xl font-bold text-gray-900">
+              ${product.price.toFixed(2)}
+            </span>
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => addToCart(product)}
+              className="bg-gradient-to-r from-rose-500 to-blush-500 hover:from-rose-600 hover:to-blush-600 text-white text-xs font-semibold px-4 py-2.5 rounded-full transition-all shadow-glow hover:shadow-glow-blush"
+            >
+              Add
+            </motion.button>
+          </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

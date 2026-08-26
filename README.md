@@ -1,23 +1,31 @@
-# 🛍️ FreeBuff Store
+# 🌹 Elegance — Modern Essentials
 
-A modern, responsive e-commerce web application built with React.js and Tailwind CSS.
+A beautifully crafted e-commerce web application with a refined, feminine aesthetic.
 
 ## ✨ Features
 
-- **Home Page** — Hero section, featured products grid, category filtering
-- **Product Details** — Full product page with features, ratings, and related items
-- **Shopping Cart** — Add/remove items, adjust quantities, view totals
-- **Checkout** — Clean checkout form with order summary (mockup)
-- **Responsive Design** — Mobile-first, works on all screen sizes
-- **Modern UI** — Minimalist design with smooth animations
+- **Home Page** — Elegant hero with gradient mesh, product collage, and scroll animations
+- **Product Collection** — Searchable & filterable grid with scroll-reveal cards
+- **Product Details** — Full product page with wishlisting, related items, and micro-interactions
+- **Shopping Bag** — Quantity controls, animated removal, order summary
+- **Checkout** — Clean form with order confirmation celebration
+- **Animations** — Smooth page transitions, hover effects, and scroll-triggered reveals
+
+## 🎨 Design
+
+- Rose / blush / cream color palette
+- Playfair Display + DM Sans typography
+- Glassmorphism navbar
+- Gradient accents and glow shadows
+- Fully responsive, mobile-first
 
 ## 🛠️ Tech Stack
 
-- React 18
+- React 18 + Vite
 - React Router v6
 - Tailwind CSS
-- Vite
-- Lucide React (icons)
+- Framer Motion
+- Lucide React icons
 
 ## 🚀 Getting Started
 
@@ -26,14 +34,12 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173) to view the app.
+Open [http://localhost:5173](http://localhost:5173)
 
-## 📦 Build
+## 📦 Build & Deploy
 
 ```bash
 npm run build
 ```
 
-## 🌐 Live Demo
-
-🔗 [View Live on Vercel](https://freebuff-ecommerce.vercel.app)
+Deploy to Vercel — just import the repo and it works automatically.
