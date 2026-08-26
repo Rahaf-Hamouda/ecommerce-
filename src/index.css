@@ -19,16 +19,38 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Arabic font */
-[dir="rtl"] body,
-[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4,
-[dir="rtl"] p, [dir="rtl"] span, [dir="rtl"] a, [dir="rtl"] button,
-[dir="rtl"] input, [dir="rtl"] label, [dir="rtl"] li {
-  font-family: 'Noto Sans Arabic', 'DM Sans', sans-serif;
+/* ─── Arabic Font Setup ─── */
+[dir="rtl"] body {
+  font-family: 'Noto Sans Arabic', sans-serif;
 }
 
 [dir="rtl"] .font-display {
   font-family: 'Noto Sans Arabic', sans-serif !important;
+}
+
+/* Better Arabic text rendering */
+[dir="rtl"] body {
+  line-height: 1.8;
+  letter-spacing: 0;
+  word-spacing: 0.05em;
+}
+
+[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3 {
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+[dir="rtl"] p {
+  line-height: 2;
+}
+
+[dir="rtl"] button {
+  font-family: 'Noto Sans Arabic', sans-serif;
+  letter-spacing: 0;
+}
+
+[dir="rtl"] input, [dir="rtl"] textarea {
+  font-family: 'Noto Sans Arabic', sans-serif;
 }
 
 ::selection {
@@ -41,7 +63,6 @@ h1, h2, h3, h4, h5, h6 {
   text-rendering: optimizeLegibility;
 }
 
-/* Better focus states */
 input:focus, button:focus-visible {
   outline: none;
 }
@@ -93,7 +114,6 @@ button:focus-visible {
     animation: pulse-soft 3s ease-in-out infinite;
   }
 
-  /* Letter spacing for English headings */
   .tracking-elegant {
     letter-spacing: -0.02em;
   }
@@ -133,7 +153,7 @@ button:focus-visible {
   background: #fb7185;
 }
 
-/* RTL Support */
+/* ─── RTL Support ─── */
 [dir="rtl"] .ps-4 { padding-right: 1rem; padding-left: 0; }
 [dir="rtl"] .pe-4 { padding-left: 1rem; padding-right: 0; }
 [dir="rtl"] .ms-auto { margin-right: auto; margin-left: 0; }
@@ -142,3 +162,39 @@ button:focus-visible {
 [dir="rtl"] .text-end { text-align: left; }
 [dir="rtl"] .start-0 { right: 0; left: auto; }
 [dir="rtl"] .end-0 { left: 0; right: auto; }
+
+/* RTL flex direction fixes */
+[dir="rtl"] .flex-row-reverse {
+  flex-direction: row;
+}
+
+/* RTL text alignment for cards */
+[dir="rtl"] .line-clamp-1 {
+  text-align: right;
+}
+
+/* RTL input placeholders */
+[dir="rtl"] input::placeholder,
+[dir="rtl"] textarea::placeholder {
+  text-align: right;
+}
+
+/* RTL badge positioning */
+[dir="rtl"] .absolute.top-4.right-4 {
+  right: auto;
+  left: 1rem;
+}
+
+[dir="rtl"] .absolute.top-4.left-4 {
+  left: auto;
+  right: 1rem;
+}
+
+/* RTL for hero section */
+[dir="rtl"] .grid-cols-2.gap-4 > div:last-child {
+  margin-top: 0;
+}
+
+[dir="rtl"] .grid-cols-2.gap-4 > div:first-child {
+  margin-top: 2.5rem;
+}

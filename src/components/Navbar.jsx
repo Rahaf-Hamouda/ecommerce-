@@ -48,7 +48,9 @@ export default function Navbar() {
             >
               🌹
             </motion.span>
-            <span className="font-display text-2xl font-bold text-gradient tracking-tight">
+            <span className={`font-display font-bold text-gradient tracking-tight ${
+              isRtl ? 'text-xl' : 'text-2xl'
+            }`}>
               Elegance
             </span>
           </Link>

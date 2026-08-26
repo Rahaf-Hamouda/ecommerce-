@@ -38,13 +38,13 @@ export default function Home() {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 md:py-40">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             {/* Text */}
-            <div>
+            <div className={isRtl ? 'lg:order-2' : ''}>
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
               >
-                <span className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm text-rose-500 text-xs font-semibold px-4 py-2 rounded-full border border-rose-100 shadow-sm mb-8">
+                <span className={`inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm text-rose-500 text-xs font-semibold px-4 py-2 rounded-full border border-rose-100 shadow-sm mb-8 ${isRtl ? 'text-sm' : ''}`}>
                   <Sparkles className="w-3.5 h-3.5" />
                   {t('hero.badge')}
                 </span>
@@ -54,8 +54,10 @@ export default function Home() {
                 initial={{ opacity: 0, y: 40 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className={`font-display font-bold text-gray-900 leading-[1.05] mb-6 ${
-                  isRtl ? 'text-5xl md:text-6xl' : 'text-5xl md:text-7xl tracking-elegant'
+                className={`font-display font-bold text-gray-900 mb-6 ${
+                  isRtl
+                    ? 'text-4xl md:text-5xl leading-[1.6]'
+                    : 'text-5xl md:text-7xl leading-[1.05] tracking-elegant'
                 }`}
               >
                 {t('hero.title1')}
@@ -67,8 +69,8 @@ export default function Home() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
-                className={`text-gray-500 leading-relaxed mb-10 max-w-md ${
-                  isRtl ? 'text-lg' : 'text-lg leading-[1.8]'
+                className={`text-gray-500 mb-10 max-w-md ${
+                  isRtl ? 'text-base leading-[2]' : 'text-lg leading-[1.8]'
                 }`}
               >
                 {t('hero.subtitle')}
@@ -86,7 +88,7 @@ export default function Home() {
                     whileTap={{ scale: 0.95 }}
                     className="bg-gradient-to-r from-rose-500 to-blush-500 text-white font-semibold px-8 py-4 rounded-full inline-flex items-center gap-2 shadow-glow"
                   >
-                    {t('hero.shopNow')} <ArrowRight className="w-5 h-5" />
+                    {t('hero.shopNow')} <ArrowRight className={`w-5 h-5 ${isRtl ? 'rotate-180' : ''}`} />
                   </motion.button>
                 </Link>
                 <Link to="/products">
@@ -106,12 +108,12 @@ export default function Home() {
               initial={{ opacity: 0, scale: 0.9, x: isRtl ? -60 : 60 }}
               animate={{ opacity: 1, scale: 1, x: 0 }}
               transition={{ duration: 1, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="relative hidden lg:block"
+              className={`relative hidden lg:block ${isRtl ? 'lg:order-1' : ''}`}
             >
               <div className="relative">
                 <div className="absolute -inset-4 bg-gradient-to-r from-rose-200 to-blush-200 rounded-3xl blur-2xl opacity-40" />
                 <div className="relative grid grid-cols-2 gap-4">
-                  <div className="space-y-4">
+                  <div className={isRtl ? 'space-y-4 mt-10' : 'space-y-4'}>
                     <div className="rounded-3xl overflow-hidden shadow-elevated aspect-[3/4]">
                       <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=550&fit=crop" alt="Headphones" className="w-full h-full object-cover" />
                     </div>
@@ -119,7 +121,7 @@ export default function Home() {
                       <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop" alt="Coffee" className="w-full h-full object-cover" />
                     </div>
                   </div>
-                  <div className="space-y-4 mt-10">
+                  <div className={isRtl ? 'space-y-4' : 'space-y-4 mt-10'}>
                     <div className="rounded-3xl overflow-hidden shadow-elevated aspect-square">
                       <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop" alt="Watch" className="w-full h-full object-cover" />
                     </div>
@@ -167,8 +169,8 @@ export default function Home() {
                   <f.icon className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <p className="font-semibold text-gray-800 text-sm">{f.title}</p>
-                  <p className="text-[11px] text-gray-400">{f.desc}</p>
+                  <p className={`font-semibold text-gray-800 ${isRtl ? 'text-[13px]' : 'text-sm'}`}>{f.title}</p>
+                  <p className={`text-gray-400 ${isRtl ? 'text-[11px]' : 'text-[11px]'}`}>{f.desc}</p>
                 </div>
               </motion.div>
             ))}
@@ -187,11 +189,13 @@ export default function Home() {
         >
           <span className="text-rose-400 text-xs font-semibold tracking-wide-elegant uppercase">{t('home.ourPicks')}</span>
           <h2 className={`font-display font-bold text-gray-900 mt-3 mb-4 ${
-            isRtl ? 'text-3xl md:text-4xl' : 'text-4xl md:text-5xl tracking-elegant'
+            isRtl
+              ? 'text-3xl md:text-4xl leading-[1.5]'
+              : 'text-4xl md:text-5xl tracking-elegant'
           }`}>
             {t('home.featuredCollection')}
           </h2>
-          <p className={`text-gray-400 max-w-lg mx-auto ${isRtl ? 'text-base' : 'text-base leading-relaxed'}`}>
+          <p className={`text-gray-400 max-w-lg mx-auto ${isRtl ? 'text-base leading-[2]' : 'text-base leading-relaxed'}`}>
             {t('home.featuredDesc')}
           </p>
         </motion.div>
@@ -230,7 +234,7 @@ export default function Home() {
 
         {filteredProducts.length === 0 && (
           <div className="text-center py-20 text-gray-300">
-            <p className="text-lg font-display">{t('products.noResults')}</p>
+            <p className={`font-display ${isRtl ? 'text-base' : 'text-lg'}`}>{t('products.noResults')}</p>
           </div>
         )}
       </section>
@@ -248,7 +252,9 @@ export default function Home() {
             transition={{ duration: 0.7 }}
           >
             <h2 className={`font-display font-bold text-white mb-4 ${
-              isRtl ? 'text-3xl md:text-4xl' : 'text-4xl md:text-5xl tracking-elegant'
+              isRtl
+                ? 'text-3xl md:text-4xl leading-[1.5]'
+                : 'text-4xl md:text-5xl tracking-elegant'
             }`}>
               {t('home.elevateTitle')}
             </h2>
@@ -261,7 +267,7 @@ export default function Home() {
                 whileTap={{ scale: 0.95 }}
                 className="bg-white text-rose-600 font-bold px-10 py-4 rounded-full shadow-lg inline-flex items-center gap-2"
               >
-                {t('home.exploreNow')} <ArrowRight className="w-5 h-5" />
+                {t('home.exploreNow')} <ArrowRight className={`w-5 h-5 ${isRtl ? 'rotate-180' : ''}`} />
               </motion.button>
             </Link>
           </motion.div>

@@ -1,12 +1,15 @@
 import { motion } from 'framer-motion';
 import { Star, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 
 export default function ProductCard({ product, index = 0 }) {
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
+  const { t, i18n } = useTranslation();
+  const isRtl = i18n.language === 'ar';
   const liked = isInWishlist(product.id);
 
   return (
@@ -29,7 +32,9 @@ export default function ProductCard({ product, index = 0 }) {
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
             {/* Category pill */}
-            <span className="absolute top-4 left-4 glass text-rose-600 text-[11px] font-semibold px-3 py-1.5 rounded-full backdrop-blur-md">
+            <span className={`absolute top-4 glass text-rose-600 text-[11px] font-semibold px-3 py-1.5 rounded-full backdrop-blur-md ${
+              isRtl ? 'left-4' : 'left-4'
+            }`}>
               {product.category}
             </span>
 
@@ -41,7 +46,9 @@ export default function ProductCard({ product, index = 0 }) {
                 e.preventDefault();
                 toggleWishlist(product);
               }}
-              className="absolute top-4 right-4 p-2.5 glass rounded-full shadow-md z-10"
+              className={`absolute top-4 p-2.5 glass rounded-full shadow-md z-10 ${
+                isRtl ? 'left-14' : 'right-4'
+              }`}
             >
               <Heart
                 className={`w-4 h-4 transition-all duration-300 ${
@@ -67,7 +74,9 @@ export default function ProductCard({ product, index = 0 }) {
 
         <div className="p-5">
           <Link to={`/product/${product.id}`}>
-            <h3 className="font-display font-semibold text-gray-800 mb-1.5 line-clamp-1 group-hover:text-rose-600 transition-colors text-[15px]">
+            <h3 className={`font-display font-semibold text-gray-800 mb-1.5 line-clamp-1 group-hover:text-rose-600 transition-colors ${
+              isRtl ? 'text-[14px]' : 'text-[15px]'
+            }`}>
               {product.name}
             </h3>
           </Link>
@@ -87,7 +96,7 @@ export default function ProductCard({ product, index = 0 }) {
           </div>
 
           <div className="flex items-center justify-between">
-            <span className="text-xl font-bold text-gray-900">
+            <span className={`font-bold text-gray-900 ${isRtl ? 'text-lg' : 'text-xl'}`}>
               ${product.price.toFixed(2)}
             </span>
             <motion.button
@@ -96,7 +105,7 @@ export default function ProductCard({ product, index = 0 }) {
               onClick={() => addToCart(product)}
               className="bg-gradient-to-r from-rose-500 to-blush-500 hover:from-rose-600 hover:to-blush-600 text-white text-xs font-semibold px-4 py-2.5 rounded-full transition-all shadow-glow hover:shadow-glow-blush"
             >
-              Add
+              {t('product.addToCart').replace('أضيفي للسلة', '+')}
             </motion.button>
           </div>
         </div>

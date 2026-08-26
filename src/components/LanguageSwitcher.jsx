@@ -14,6 +14,7 @@ export default function LanguageSwitcher() {
   const ref = useRef(null);
 
   const currentLang = languages.find(l => l.code === i18n.language) || languages[0];
+  const isRtl = i18n.language === 'ar';
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -51,7 +52,9 @@ export default function LanguageSwitcher() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-full mt-2 end-0 bg-white rounded-2xl border border-rose-100 shadow-elevated overflow-hidden z-50 min-w-[160px]"
+            className={`absolute top-full mt-2 bg-white rounded-2xl border border-rose-100 shadow-elevated overflow-hidden z-50 min-w-[160px] ${
+              isRtl ? 'left-0' : 'right-0'
+            }`}
           >
             {languages.map(lang => (
               <button
@@ -66,7 +69,7 @@ export default function LanguageSwitcher() {
                 <span className="text-lg">{lang.flag}</span>
                 <span>{lang.label}</span>
                 {i18n.language === lang.code && (
-                  <span className="ms-auto text-rose-500">✓</span>
+                  <span className={isRtl ? 'mr-auto' : 'ml-auto'}>✓</span>
                 )}
               </button>
             ))}
