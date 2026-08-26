@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles, Shield, Truck, RotateCcw, Heart } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { products, categories } from '../data/products';
 import ProductCard from '../components/ProductCard';
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const { t } = useTranslation();
 
   const filteredProducts =
     selectedCategory === 'All'
@@ -14,10 +16,10 @@ export default function Home() {
       : products.filter(p => p.category === selectedCategory);
 
   const features = [
-    { icon: Truck, title: 'Free Shipping', desc: 'On orders over $50', color: 'from-rose-400 to-blush-400' },
-    { icon: Shield, title: 'Secure Payment', desc: '100% protected', color: 'from-blush-400 to-rose-400' },
-    { icon: RotateCcw, title: 'Easy Returns', desc: '30-day returns', color: 'from-rose-400 to-cream-400' },
-    { icon: Heart, title: 'Made with Love', desc: 'Curated with care', color: 'from-blush-400 to-cream-400' },
+    { icon: Truck, title: t('features.shipping'), desc: t('features.shippingDesc'), color: 'from-rose-400 to-blush-400' },
+    { icon: Shield, title: t('features.secure'), desc: t('features.secureDesc'), color: 'from-blush-400 to-rose-400' },
+    { icon: RotateCcw, title: t('features.returns'), desc: t('features.returnsDesc'), color: 'from-rose-400 to-cream-400' },
+    { icon: Heart, title: t('features.love'), desc: t('features.loveDesc'), color: 'from-blush-400 to-cream-400' },
   ];
 
   return (
@@ -43,7 +45,7 @@ export default function Home() {
               >
                 <span className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-sm text-rose-500 text-xs font-semibold px-4 py-2 rounded-full border border-rose-100 shadow-sm mb-8">
                   <Sparkles className="w-3.5 h-3.5" />
-                  New Collection 2024
+                  {t('hero.badge')}
                 </span>
               </motion.div>
 
@@ -53,9 +55,9 @@ export default function Home() {
                 transition={{ duration: 0.8, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
                 className="font-display text-5xl md:text-7xl font-bold text-gray-900 leading-[1.1] mb-6"
               >
-                Discover
-                <span className="block text-gradient italic">Elegant</span>
-                <span className="block text-gray-900">Essentials</span>
+                {t('hero.title1')}
+                <span className="block text-gradient italic">{t('hero.title2')}</span>
+                <span className="block text-gray-900">{t('hero.title3')}</span>
               </motion.h1>
 
               <motion.p
@@ -64,7 +66,7 @@ export default function Home() {
                 transition={{ duration: 0.8, delay: 0.3 }}
                 className="text-gray-500 text-lg leading-relaxed mb-10 max-w-md"
               >
-                A curated collection for the modern lifestyle. Where timeless design meets everyday comfort.
+                {t('hero.subtitle')}
               </motion.p>
 
               <motion.div
@@ -79,7 +81,7 @@ export default function Home() {
                     whileTap={{ scale: 0.95 }}
                     className="bg-gradient-to-r from-rose-500 to-blush-500 text-white font-semibold px-8 py-4 rounded-full inline-flex items-center gap-2 shadow-glow"
                   >
-                    Shop Collection <ArrowRight className="w-5 h-5" />
+                    {t('hero.shopNow')} <ArrowRight className="w-5 h-5" />
                   </motion.button>
                 </Link>
                 <Link to="/products">
@@ -88,7 +90,7 @@ export default function Home() {
                     whileTap={{ scale: 0.95 }}
                     className="bg-white border-2 border-rose-100 text-gray-700 font-semibold px-8 py-4 rounded-full hover:border-rose-300 transition-colors"
                   >
-                    View All
+                    {t('hero.viewAll')}
                   </motion.button>
                 </Link>
               </motion.div>
@@ -106,34 +108,18 @@ export default function Home() {
                 <div className="relative grid grid-cols-2 gap-4">
                   <div className="space-y-4">
                     <div className="rounded-3xl overflow-hidden shadow-elevated aspect-[3/4]">
-                      <img
-                        src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=550&fit=crop"
-                        alt="Headphones"
-                        className="w-full h-full object-cover"
-                      />
+                      <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=550&fit=crop" alt="Headphones" className="w-full h-full object-cover" />
                     </div>
                     <div className="rounded-3xl overflow-hidden shadow-elevated aspect-square">
-                      <img
-                        src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop"
-                        alt="Coffee"
-                        className="w-full h-full object-cover"
-                      />
+                      <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=400&h=400&fit=crop" alt="Coffee" className="w-full h-full object-cover" />
                     </div>
                   </div>
                   <div className="space-y-4 mt-10">
                     <div className="rounded-3xl overflow-hidden shadow-elevated aspect-square">
-                      <img
-                        src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop"
-                        alt="Watch"
-                        className="w-full h-full object-cover"
-                      />
+                      <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop" alt="Watch" className="w-full h-full object-cover" />
                     </div>
                     <div className="rounded-3xl overflow-hidden shadow-elevated aspect-[3/4]">
-                      <img
-                        src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=550&fit=crop"
-                        alt="Backpack"
-                        className="w-full h-full object-cover"
-                      />
+                      <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=550&fit=crop" alt="Backpack" className="w-full h-full object-cover" />
                     </div>
                   </div>
                 </div>
@@ -194,12 +180,12 @@ export default function Home() {
           transition={{ duration: 0.7 }}
           className="text-center mb-14"
         >
-          <span className="text-rose-400 text-sm font-semibold tracking-widest uppercase">Our Picks</span>
+          <span className="text-rose-400 text-sm font-semibold tracking-widest uppercase">{t('home.ourPicks')}</span>
           <h2 className="font-display text-4xl md:text-5xl font-bold text-gray-900 mt-3 mb-4">
-            Featured Collection
+            {t('home.featuredCollection')}
           </h2>
           <p className="text-gray-400 max-w-lg mx-auto">
-            Hand-selected pieces that blend beauty with functionality
+            {t('home.featuredDesc')}
           </p>
         </motion.div>
 
@@ -237,7 +223,7 @@ export default function Home() {
 
         {filteredProducts.length === 0 && (
           <div className="text-center py-20 text-gray-300">
-            <p className="text-lg font-display">No products found in this category.</p>
+            <p className="text-lg font-display">{t('products.noResults')}</p>
           </div>
         )}
       </section>
@@ -255,10 +241,10 @@ export default function Home() {
             transition={{ duration: 0.7 }}
           >
             <h2 className="font-display text-4xl md:text-5xl font-bold text-white mb-4">
-              Elevate Your Style
+              {t('home.elevateTitle')}
             </h2>
             <p className="text-rose-100 mb-10 max-w-md mx-auto">
-              Join thousands who've found their perfect piece
+              {t('home.elevateDesc')}
             </p>
             <Link to="/products">
               <motion.button
@@ -266,7 +252,7 @@ export default function Home() {
                 whileTap={{ scale: 0.95 }}
                 className="bg-white text-rose-600 font-bold px-10 py-4 rounded-full shadow-lg inline-flex items-center gap-2"
               >
-                Explore Now <ArrowRight className="w-5 h-5" />
+                {t('home.exploreNow')} <ArrowRight className="w-5 h-5" />
               </motion.button>
             </Link>
           </motion.div>
