@@ -9,7 +9,8 @@ export const products = [
     rating: 4.8,
     reviews: 256,
     inStock: true,
-    features: ["Active Noise Cancellation", "30-Hour Battery", "Bluetooth 5.2", "Foldable Design"]
+    features: ["Active Noise Cancellation", "30-Hour Battery", "Bluetooth 5.2", "Foldable Design"],
+    badge: "Best Seller"
   },
   {
     id: 2,
@@ -21,7 +22,8 @@ export const products = [
     rating: 4.6,
     reviews: 189,
     inStock: true,
-    features: ["Genuine Leather", "Laptop Compartment", "Water-Resistant", "YKK Zippers"]
+    features: ["Genuine Leather", "Laptop Compartment", "Water-Resistant", "YKK Zippers"],
+    badge: "New"
   },
   {
     id: 3,
@@ -33,7 +35,8 @@ export const products = [
     rating: 4.7,
     reviews: 412,
     inStock: true,
-    features: ["Heart Rate Monitor", "GPS Tracking", "Waterproof 50m", "7-Day Battery"]
+    features: ["Heart Rate Monitor", "GPS Tracking", "Waterproof 50m", "7-Day Battery"],
+    badge: "Popular"
   },
   {
     id: 4,
@@ -45,7 +48,8 @@ export const products = [
     rating: 4.5,
     reviews: 89,
     inStock: true,
-    features: ["100% Organic Cotton", "Relaxed Fit", "Pre-Shrunk", "Eco-Friendly"]
+    features: ["100% Organic Cotton", "Relaxed Fit", "Pre-Shrunk", "Eco-Friendly"],
+    badge: "Eco"
   },
   {
     id: 5,
@@ -57,19 +61,21 @@ export const products = [
     rating: 4.9,
     reviews: 156,
     inStock: true,
-    features: ["Handmade Ceramic", "Stainless Filter", "Dishwasher Safe", "Heat Retention"]
+    features: ["Handmade Ceramic", "Stainless Filter", "Dishwasher Safe", "Heat Retention"],
+    badge: "Top Rated"
   },
   {
     id: 6,
     name: "Minimalist Desk Lamp",
     price: 69.99,
-    image: "https://images.unsplash.com/photo-1507473885765-e6ed057ab6fe?w=500&h=600&fit=crop",
+    image: "https://images.unsplash.com/photo-1534073737927-85f1ebff1f5d?w=500&h=600&fit=crop",
     category: "Home & Kitchen",
     description: "Scandinavian-inspired LED lamp with adjustable warmth. Set the mood with a simple touch.",
     rating: 4.7,
     reviews: 203,
     inStock: true,
-    features: ["LED Light", "USB Charging", "Touch Control", "Adjustable Brightness"]
+    features: ["LED Light", "USB Charging", "Touch Control", "Adjustable Brightness"],
+    badge: ""
   },
   {
     id: 7,
@@ -81,7 +87,8 @@ export const products = [
     rating: 4.4,
     reviews: 328,
     inStock: true,
-    features: ["Canvas Upper", "Cushioned Insole", "Vulcanized Sole", "Classic Design"]
+    features: ["Canvas Upper", "Cushioned Insole", "Vulcanized Sole", "Classic Design"],
+    badge: "Sale"
   },
   {
     id: 8,
@@ -93,8 +100,61 @@ export const products = [
     rating: 4.6,
     reviews: 275,
     inStock: true,
-    features: ["360° Sound", "IPX7 Waterproof", "20-Hour Battery", "Party Mode"]
+    features: ["360° Sound", "IPX7 Waterproof", "20-Hour Battery", "Party Mode"],
+    badge: "New"
   },
+  {
+    id: 9,
+    name: "Silk Sleep Mask",
+    price: 29.99,
+    image: "https://images.unsplash.com/photo-1616627547584-bf28cee262db?w=500&h=600&fit=crop",
+    category: "Accessories",
+    description: "Pure mulberry silk that feels like a gentle kiss on your eyes. Beauty sleep, perfected.",
+    rating: 4.8,
+    reviews: 142,
+    inStock: true,
+    features: ["100% Mulberry Silk", "Adjustable Strap", "Light Blocking", "Hypoallergenic"],
+    badge: "New"
+  },
+  {
+    id: 10,
+    name: "Stoneware Dinner Plate Set",
+    price: 79.99,
+    image: "https://images.unsplash.com/photo-1610701596007-11502861dcfa?w=500&h=600&fit=crop",
+    category: "Home & Kitchen",
+    description: "Artisan-crafted stoneware with a reactive glaze finish. Each plate is uniquely beautiful.",
+    rating: 4.7,
+    reviews: 98,
+    inStock: true,
+    features: ["Handcrafted Stoneware", "Reactive Glaze", "Dishwasher Safe", "Set of 4"],
+    badge: ""
+  },
+  {
+    id: 11,
+    name: "Cashmere Wrap Scarf",
+    price: 149.99,
+    image: "https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?w=500&h=600&fit=crop",
+    category: "Accessories",
+    description: "Ultra-soft cashmere that drapes like a dream. Warmth wrapped in elegance.",
+    rating: 4.9,
+    reviews: 201,
+    inStock: true,
+    features: ["100% Cashmere", "Hand-Finished Edges", "Versatile Styling", "Gift Boxed"],
+    badge: "Premium"
+  },
+  {
+    id: 12,
+    name: "Linen Throw Blanket",
+    price: 119.99,
+    image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=500&h=600&fit=crop",
+    category: "Home & Kitchen",
+    description: "Stonewashed European linen that gets softer with every wash. Effortless comfort for any room.",
+    rating: 4.6,
+    reviews: 167,
+    inStock: true,
+    features: ["European Linen", "Stonewashed", "Machine Washable", "OEKO-TEX Certified"],
+    badge: "Eco"
+  }
 ];
 
-export const categories = ["All", "Electronics", "Accessories", "Clothing", "Home & Kitchen"];
+export const categories = ["Electronics", "Accessories", "Clothing", "Home & Kitchen"];
