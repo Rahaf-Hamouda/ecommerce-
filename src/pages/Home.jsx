@@ -1,17 +1,27 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Shield, Truck, RotateCcw, Heart } from 'lucide-react';
-import { products, categories } from '../data/products';
+import { api } from '../api';
+import { useFetch } from '../hooks/useFetch';
 import ProductCard from '../components/ProductCard';
+import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorMessage from '../components/ErrorMessage';
 
 export default function Home() {
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const { data: products, loading, error, refetch } = useFetch(() => api.getProducts());
+  const { data: categories } = useFetch(() => api.getCategories());
+
+  const allCategories = ['All', ...(categories || [])];
 
   const filteredProducts =
+    !products ? [] :
     selectedCategory === 'All'
       ? products
       : products.filter(p => p.category === selectedCategory);
+
+  const featuredProducts = filteredProducts.slice(0, 8);
 
   const features = [
     { icon: Truck, title: 'Complimentary Shipping', desc: 'On all orders over $50', color: 'from-rose-400 to-blush-400' },
@@ -193,7 +203,7 @@ export default function Home() {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="flex flex-wrap justify-center gap-3 mb-14"
         >
-          {categories.map(cat => (
+          {allCategories.map(cat => (
             <motion.button
               key={cat}
               whileHover={{ scale: 1.05 }}
@@ -211,13 +221,19 @@ export default function Home() {
         </motion.div>
 
         {/* Product Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
-          {filteredProducts.map((product, index) => (
-            <ProductCard key={product.id} product={product} index={index} />
-          ))}
-        </div>
+        {loading ? (
+          <LoadingSpinner text="Fetching products..." />
+        ) : error ? (
+          <ErrorMessage message={error} onRetry={refetch} />
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
+            {featuredProducts.map((product, index) => (
+              <ProductCard key={product.id} product={product} index={index} />
+            ))}
+          </div>
+        )}
 
-        {filteredProducts.length === 0 && (
+        {featuredProducts.length === 0 && !loading && !error && (
           <div className="text-center py-20 text-gray-300">
             <p className="font-display text-lg">No products found in this category.</p>
           </div>

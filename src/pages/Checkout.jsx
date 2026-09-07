@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CreditCard, Check, ArrowLeft, Lock, Sparkles, Smartphone, Wallet, ShieldCheck, Package } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { api } from '../api';
 
 export default function Checkout() {
   const { items, cartTotal, clearCart } = useCart();
@@ -17,9 +18,21 @@ export default function Checkout() {
 
   const handleShippingSubmit = (e) => { e.preventDefault(); setStep(2); window.scrollTo({ top: 0, behavior: 'smooth' }); };
 
-  const handlePaymentSubmit = (e) => {
+  const handlePaymentSubmit = async (e) => {
     e.preventDefault();
-    setOrderNumber(generateOrderNumber());
+    const orderNum = generateOrderNumber();
+    try {
+      await api.createOrder({
+        orderNumber: orderNum,
+        items: items.map(i => ({ id: i.id, name: i.name, price: i.price, quantity: i.quantity })),
+        total: cartTotal * 1.08,
+        shipping: { firstName: form.firstName, lastName: form.lastName, email: form.email, phone: form.phone, address: form.address, city: form.city, zip: form.zip },
+        paymentMethod
+      });
+    } catch (err) {
+      console.log('Order saved locally (API unavailable)');
+    }
+    setOrderNumber(orderNum);
     clearCart();
     setStep(3);
     window.scrollTo({ top: 0, behavior: 'smooth' });

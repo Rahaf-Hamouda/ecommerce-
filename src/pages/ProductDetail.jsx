@@ -1,37 +1,35 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Star, ShoppingCart, Check, Heart, Minus, Plus } from 'lucide-react';
-import { products } from '../data/products';
+import { api } from '../api';
+import { useFetch } from '../hooks/useFetch';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
 import { useToast } from '../context/ToastContext';
 import ProductCard from '../components/ProductCard';
+import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorMessage from '../components/ErrorMessage';
 
 export default function ProductDetail() {
   const { id } = useParams();
-  const product = products.find(p => p.id === parseInt(id));
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
   const { addToast } = useToast();
   const [added, setAdded] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
-  if (!product) {
-    return (
-      <div className="max-w-7xl mx-auto px-4 py-32 text-center">
-        <p className="text-7xl mb-6">404</p>
-        <h1 className="font-display text-2xl font-bold text-gray-900 mb-4">Piece Not Found</h1>
-        <Link to="/products" className="text-rose-500 hover:text-rose-600 transition-colors">
-          &larr; Back to Collection
-        </Link>
-      </div>
-    );
-  }
+  const { data: product, loading, error, refetch } = useFetch(
+    () => api.getProduct(id),
+    [id]
+  );
 
-  const relatedProducts = products
-    .filter(p => p.category === product.category && p.id !== product.id)
-    .slice(0, 4);
+  const { data: relatedProducts } = useFetch(
+    () => product ? api.getProductsByCategory(product.category) : Promise.resolve([]),
+    [product?.category]
+  );
+
+  const related = (relatedProducts || []).filter(p => p.id !== parseInt(id)).slice(0, 4);
 
   const handleAddToCart = () => {
     for (let i = 0; i < quantity; i++) {
@@ -50,6 +48,21 @@ export default function ProductDetail() {
       wasInWishlist ? 'remove' : 'wishlist'
     );
   };
+
+  if (loading) return <LoadingSpinner text="Loading product..." />;
+  if (error) return <ErrorMessage message={error} onRetry={refetch} />;
+
+  if (!product) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 py-32 text-center">
+        <p className="text-7xl mb-6">404</p>
+        <h1 className="font-display text-2xl font-bold text-gray-900 mb-4">Piece Not Found</h1>
+        <Link to="/products" className="text-rose-500 hover:text-rose-600 transition-colors">
+          &larr; Back to Collection
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 pt-28">
@@ -159,13 +172,13 @@ export default function ProductDetail() {
         </motion.div>
       </div>
 
-      {relatedProducts.length > 0 && (
+      {related.length > 0 && (
         <div className="mt-24">
           <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.7 }}>
             <h2 className="font-display text-3xl font-bold text-gray-900 mb-10">You May Also Love</h2>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
-            {relatedProducts.map((p, index) => (
+            {related.map((p, index) => (
               <ProductCard key={p.id} product={p} index={index} />
             ))}
           </div>

@@ -1,16 +1,38 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Search } from 'lucide-react';
-import { products, categories } from '../data/products';
+import { api } from '../api';
+import { useFetch } from '../hooks/useFetch';
 import ProductCard from '../components/ProductCard';
+import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorMessage from '../components/ErrorMessage';
 
 export default function Products() {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
 
-  const filtered = products.filter(p => {
+  // Debounce search
+  useEffect(() => {
+    const timer = setTimeout(() => setDebouncedSearch(search), 300);
+    return () => clearTimeout(timer);
+  }, [search]);
+
+  const { data: categories } = useFetch(() => api.getCategories());
+
+  const { data: products, loading, error, refetch } = useFetch(
+    () => api.getProducts(),
+    []
+  );
+
+  const allCategories = ['All', ...(categories || [])];
+
+  const filtered = (products || []).filter(p => {
     const matchCategory = selectedCategory === 'All' || p.category === selectedCategory;
-    const matchSearch = p.name.toLowerCase().includes(search.toLowerCase());
+    const matchSearch = !debouncedSearch || 
+      p.name.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      p.description.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+      p.category.toLowerCase().includes(debouncedSearch.toLowerCase());
     return matchCategory && matchSearch;
   });
 
@@ -46,7 +68,7 @@ export default function Products() {
           />
         </div>
         <div className="flex flex-wrap gap-2">
-          {categories.map(cat => (
+          {allCategories.map(cat => (
             <motion.button
               key={cat}
               whileHover={{ scale: 1.05 }}
@@ -64,17 +86,33 @@ export default function Products() {
         </div>
       </motion.div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
-        {filtered.map((product, index) => (
-          <ProductCard key={product.id} product={product} index={index} />
-        ))}
-      </div>
+      {loading ? (
+        <LoadingSpinner text="Loading collection..." />
+      ) : error ? (
+        <ErrorMessage message={error} onRetry={refetch} />
+      ) : (
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
+            {filtered.map((product, index) => (
+              <ProductCard key={product.id} product={product} index={index} />
+            ))}
+          </div>
 
-      {filtered.length === 0 && (
-        <div className="text-center py-24">
-          <p className="text-5xl mb-4">&#128269;</p>
-          <p className="text-lg font-display text-gray-400">No pieces match your search.</p>
-        </div>
+          {filtered.length === 0 && (
+            <div className="text-center py-24">
+              <p className="text-5xl mb-4">&#128269;</p>
+              <p className="text-lg font-display text-gray-400">No pieces match your search.</p>
+              {debouncedSearch && (
+                <button
+                  onClick={() => { setSearch(''); setSelectedCategory('All'); }}
+                  className="mt-4 text-rose-500 text-sm font-medium hover:text-rose-600 transition-colors"
+                >
+                  Clear search
+                </button>
+              )}
+            </div>
+          )}
+        </>
       )}
     </div>
   );
