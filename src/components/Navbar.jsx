@@ -18,6 +18,10 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location]);
+
   const navLinks = [
     { name: 'Home', path: '/' },
     { name: 'Collection', path: '/products' },
@@ -165,6 +169,13 @@ export default function Navbar() {
                 className="flex items-center gap-2 py-2.5 text-sm font-medium text-gray-600"
               >
                 <Heart className="w-4 h-4" /> Wishlist {wishlistCount > 0 && `(${wishlistCount})`}
+              </Link>
+              <Link
+                to="/cart"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-2 py-2.5 text-sm font-medium text-gray-600"
+              >
+                <ShoppingCart className="w-4 h-4" /> Bag {cartCount > 0 && `(${cartCount})`}
               </Link>
             </div>
           </motion.div>

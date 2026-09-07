@@ -1,9 +1,11 @@
-import { createContext, useContext, useReducer } from 'react';
+import { createContext, useContext, useReducer, useEffect } from 'react';
 
 const CartContext = createContext();
 
 const cartReducer = (state, action) => {
   switch (action.type) {
+    case 'LOAD_CART':
+      return { ...state, items: action.payload };
     case 'ADD_TO_CART': {
       const existingItem = state.items.find(item => item.id === action.payload.id);
       if (existingItem) {
@@ -43,7 +45,14 @@ const cartReducer = (state, action) => {
 };
 
 export const CartProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(cartReducer, { items: [] });
+  const [state, dispatch] = useReducer(cartReducer, { items: [] }, () => {
+    const saved = localStorage.getItem('elegance-cart');
+    return { items: saved ? JSON.parse(saved) : [] };
+  });
+
+  useEffect(() => {
+    localStorage.setItem('elegance-cart', JSON.stringify(state.items));
+  }, [state.items]);
 
   const addToCart = (product) => {
     dispatch({ type: 'ADD_TO_CART', payload: product });

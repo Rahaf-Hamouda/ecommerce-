@@ -3,11 +3,30 @@ import { Star, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
+import { useToast } from '../context/ToastContext';
 
 export default function ProductCard({ product, index = 0 }) {
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
+  const { addToast } = useToast();
   const liked = isInWishlist(product.id);
+
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addToCart(product);
+    addToast(`${product.name} added to bag`, 'cart');
+  };
+
+  const handleToggleWishlist = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleWishlist(product);
+    addToast(
+      liked ? `${product.name} removed from wishlist` : `${product.name} saved to wishlist`,
+      liked ? 'remove' : 'wishlist'
+    );
+  };
 
   return (
     <motion.div
@@ -34,10 +53,7 @@ export default function ProductCard({ product, index = 0 }) {
             <motion.button
               whileHover={{ scale: 1.2 }}
               whileTap={{ scale: 0.8 }}
-              onClick={(e) => {
-                e.preventDefault();
-                toggleWishlist(product);
-              }}
+              onClick={handleToggleWishlist}
               className="absolute top-4 right-4 p-2.5 glass rounded-full shadow-md z-10"
             >
               <Heart
@@ -51,10 +67,7 @@ export default function ProductCard({ product, index = 0 }) {
               initial={{ opacity: 0, y: 20 }}
               whileHover={{ scale: 1.05 }}
               className="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-md text-rose-600 text-sm font-semibold py-3 rounded-2xl opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 shadow-lg"
-              onClick={(e) => {
-                e.preventDefault();
-                addToCart(product);
-              }}
+              onClick={handleAddToCart}
             >
               Quick Add
             </motion.button>
@@ -74,7 +87,7 @@ export default function ProductCard({ product, index = 0 }) {
                 key={i}
                 className={`w-3 h-3 ${
                   i < Math.floor(product.rating)
-                    ? 'fill-cream-400 text-cream-400'
+                    ? 'fill-amber-400 text-amber-400'
                     : 'text-gray-200'
                 }`}
               />
@@ -89,7 +102,7 @@ export default function ProductCard({ product, index = 0 }) {
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              onClick={() => addToCart(product)}
+              onClick={handleAddToCart}
               className="bg-gradient-to-r from-rose-500 to-blush-500 hover:from-rose-600 hover:to-blush-600 text-white text-xs font-semibold px-4 py-2.5 rounded-full transition-all shadow-glow hover:shadow-glow-blush"
             >
               Add to Bag

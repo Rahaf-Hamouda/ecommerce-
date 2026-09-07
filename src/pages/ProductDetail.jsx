@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, Star, ShoppingCart, Check, Heart } from 'lucide-react';
+import { ArrowLeft, Star, ShoppingCart, Check, Heart, Minus, Plus } from 'lucide-react';
 import { products } from '../data/products';
 import { useCart } from '../context/CartContext';
 import { useWishlist } from '../context/WishlistContext';
+import { useToast } from '../context/ToastContext';
 import ProductCard from '../components/ProductCard';
 
 export default function ProductDetail() {
@@ -12,12 +13,14 @@ export default function ProductDetail() {
   const product = products.find(p => p.id === parseInt(id));
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
+  const { addToast } = useToast();
   const [added, setAdded] = useState(false);
+  const [quantity, setQuantity] = useState(1);
 
   if (!product) {
     return (
       <div className="max-w-7xl mx-auto px-4 py-32 text-center">
-        <p className="text-6xl mb-4">&#127800;</p>
+        <p className="text-7xl mb-6">404</p>
         <h1 className="font-display text-2xl font-bold text-gray-900 mb-4">Piece Not Found</h1>
         <Link to="/products" className="text-rose-500 hover:text-rose-600 transition-colors">
           &larr; Back to Collection
@@ -31,9 +34,21 @@ export default function ProductDetail() {
     .slice(0, 4);
 
   const handleAddToCart = () => {
-    addToCart(product);
+    for (let i = 0; i < quantity; i++) {
+      addToCart(product);
+    }
     setAdded(true);
+    addToast(`${quantity}x ${product.name} added to bag`, 'cart');
     setTimeout(() => setAdded(false), 2000);
+  };
+
+  const handleToggleWishlist = () => {
+    const wasInWishlist = isInWishlist(product.id);
+    toggleWishlist(product);
+    addToast(
+      wasInWishlist ? `${product.name} removed from wishlist` : `${product.name} saved to wishlist`,
+      wasInWishlist ? 'remove' : 'wishlist'
+    );
   };
 
   return (
@@ -50,7 +65,7 @@ export default function ProductDetail() {
           <div className="relative bg-gradient-to-br from-rose-50 to-blush-50 rounded-3xl overflow-hidden aspect-square">
             <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
           </div>
-          <motion.button whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.9 }} onClick={() => toggleWishlist(product)}
+          <motion.button whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.9 }} onClick={handleToggleWishlist}
             className="absolute top-6 right-6 p-3 glass rounded-full shadow-lg"
           >
             <Heart className={`w-5 h-5 transition-all duration-300 ${isInWishlist(product.id) ? 'text-rose-500 fill-rose-500 scale-110' : 'text-gray-400'}`} />
@@ -64,7 +79,7 @@ export default function ProductDetail() {
           <div className="flex items-center gap-2 mb-6">
             <div className="flex items-center gap-1">
               {[...Array(5)].map((_, i) => (
-                <Star key={i} className={`w-4 h-4 ${i < Math.floor(product.rating) ? 'fill-cream-400 text-cream-400' : 'text-gray-200'}`} />
+                <Star key={i} className={`w-4 h-4 ${i < Math.floor(product.rating) ? 'fill-amber-400 text-amber-400' : 'text-gray-200'}`} />
               ))}
             </div>
             <span className="text-sm text-gray-400">{product.rating} ({product.reviews} reviews)</span>
@@ -94,6 +109,29 @@ export default function ProductDetail() {
               {product.inStock && (
                 <span className="text-sm text-sage-600 font-medium bg-sage-50 px-3 py-1 rounded-full mb-1">&check; In Stock</span>
               )}
+            </div>
+
+            {/* Quantity Selector */}
+            <div className="flex items-center gap-4 mb-6">
+              <span className="text-sm font-medium text-gray-600">Quantity</span>
+              <div className="flex items-center gap-0 bg-rose-50 rounded-full overflow-hidden">
+                <motion.button
+                  whileTap={{ scale: 0.85 }}
+                  onClick={() => setQuantity(q => Math.max(1, q - 1))}
+                  className="p-2.5 hover:bg-rose-100 transition-colors"
+                  disabled={quantity <= 1}
+                >
+                  <Minus className="w-4 h-4 text-gray-600" />
+                </motion.button>
+                <span className="w-10 text-center font-semibold text-sm text-gray-800">{quantity}</span>
+                <motion.button
+                  whileTap={{ scale: 0.85 }}
+                  onClick={() => setQuantity(q => Math.min(10, q + 1))}
+                  className="p-2.5 hover:bg-rose-100 transition-colors"
+                >
+                  <Plus className="w-4 h-4 text-gray-600" />
+                </motion.button>
+              </div>
             </div>
 
             <div className="flex flex-wrap gap-3">
